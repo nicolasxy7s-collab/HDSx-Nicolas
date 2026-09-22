@@ -1,6 +1,6 @@
 ---
 title: "My First Report"
-author: "Your Name"
+author: "Nicolas Liu"
 format:
   html:
     embed-resources: true
@@ -29,7 +29,7 @@ head(patients)
 
 ```{r}
 hist(patients$age,
-     main = "Age distribution of practice patients",
+     main = "Age distribution of practice ptients",
      xlab = "Age (years)",
      col  = "steelblue")
 ```
@@ -41,3 +41,18 @@ hist(patients$age,
 
 When you are happy with the result, **commit and sync** your work (the Week 2
 course page walks you through this), then submit your repository link on Canvas.
+
+## My notes
+- In class today I learned how to use github *codespace*, and how to run **R** on it.
+
+```{r}
+summary(patients)
+```
+
+```{r}
+x <- 2
+y <- 3
+z <- x*y
+
+print(z)
+```
