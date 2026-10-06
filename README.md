@@ -1,6 +1,6 @@
-# SPPH 381H — Your Personal Workspace
+# SPPH 381H — Nicolas' Personal Workspace :D
 
-This is **your** working project for **SPPH 381H: Health Data Science (AI and
+This is **Nicolas Liu (nicolasxy7s-collab)**/ working project for **SPPH 381H: Health Data Science (AI and
 Knowledge Translation)**. Fork this repository once, then do your individual
 course work here. The course book is a separate, read-only reference; do not
 copy book source files into this repository unless an assignment explicitly
