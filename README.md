@@ -6,6 +6,8 @@ course work here. The course book is a separate, read-only reference; do not
 copy book source files into this repository unless an assignment explicitly
 tells you to.
 
+**Nicolas Liu** is a fourth year UBC student. Major in Chemical Biology and Minor in HESO
+
 ## Project map
 
 ```text
