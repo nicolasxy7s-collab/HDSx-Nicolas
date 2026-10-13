@@ -99,3 +99,21 @@ identical(round(pipeline1_summary$mean_BMI, 2), r_function_summary$mean_value)
 weight_by_gender_race <- summarise_mean_sd(nhanes, Weight, Gender, Race)
 weight_by_gender_race
 ```
+
+## Third Function Application
+
+```{r}
+height_by_gender_race <- summarise_mean_sd(nhanes, Height, Gender, Race)
+height_by_gender_race
+```
+
+
+```{r}
+pipeline1_summary |>
+  transmute(
+    IncomeGroup,
+    Gender,
+    mean_BMI = sprintf("%.2f", mean_BMI)
+  )
+
+```

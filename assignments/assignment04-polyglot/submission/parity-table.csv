@@ -4,5 +4,5 @@ raw_column_count,18,18,yes,both languages read the same number of columns from t
 filtered_row_count,87647,87647,yes,both languages filtered the same number of rows
 number_of_groups,6,6,yes,both languages created the same number of groups
 rounded_summary_values,,,,
-mean_BMI_values_after_rounding,,,,
+mean_BMI_values_after_rounding,"25.74; 26.11; 26.39; 25.52; 25.95; 24.05","25.74; 26.11; 26.39; 25.52; 25.95; 24.05",yes,"Both languages match to two decimals; order is High Female, High Male, Middle Female, Middle Male, Low Female, Low Male"
 Group_labels,,,,
