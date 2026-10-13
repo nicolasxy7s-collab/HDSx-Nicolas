@@ -1,0 +1,8 @@
+metric,r_value,python_value,match,notes
+raw_row_count,105626,105626,yes,both languages read the same number of rows from the CSV file
+raw_column_count,18,18,yes,both languages read the same number of columns from the CSV file
+filtered_row_count,87647,87647,yes,both languages filtered the same number of rows
+number_of_groups,6,6,yes,both languages created the same number of groups
+rounded_summary_values,,,,
+mean_BMI_values_after_rounding,,,,
+Group_labels,,,,

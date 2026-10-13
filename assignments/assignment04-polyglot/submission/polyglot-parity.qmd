@@ -15,6 +15,19 @@ glimpse(nhanes)
 
 ```
 
+```{r}
+nrow(nhanes)
+```
+
+```{r}
+ncol(nhanes)
+```
+
+```{r}
+nrow(filter(nhanes, !is.na(BMI), !is.na(IncomeGroup), !is.na(Gender)))
+```
+
+
 **AI prompt:** Under Pipeline 1, use the nhanes dataframe, remove rows with missing BMI, IncomeGroup, or Gender, then calculate sample size, mean BMI, and standard deviation of BMI by IncomeGroup and Gender. Sort and print the summary table.
 **Verified:** I checked that rows with missing values in those three columns were excluded, confirmed the group counts, means, and standard deviations against the filtered data, and checked the table’s sort order.
 
@@ -44,6 +57,9 @@ pipeline1_summary <- nhanes |>
 print(pipeline1_summary)
 ```
 
+```{r}
+nrow(pipeline1_summary)
+```
 
 ## R Function
 
