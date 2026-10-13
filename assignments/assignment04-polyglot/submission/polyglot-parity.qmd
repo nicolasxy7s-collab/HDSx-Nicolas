@@ -1,0 +1,85 @@
+**AI prompt:** Create a Quarto document with an example A4 title, a placeholder for my name, and a simple R code chunk that I will modify to load data. Place it in assignments/assignment04-polyglot/submission. please use examples/nhanes-equity/data/nhanes_equity_v6.csv
+**Verified:** I confirmed the Quarto file is in the requested submission folder, contains an A4 title and name placeholder, and renders successfully. The AI did use the relavant location correctly.
+
+---
+title: "Assignment 4: R and Python Parity Analysis"
+author: "Nicolas Liu"
+format: html
+---
+## Load Data
+
+```{r}
+library(tidyverse)
+nhanes <- read.csv("examples/nhanes-equity/data/nhanes_equity_v6.csv")
+glimpse(nhanes)
+
+```
+
+**AI prompt:** Under Pipeline 1, use the nhanes dataframe, remove rows with missing BMI, IncomeGroup, or Gender, then calculate sample size, mean BMI, and standard deviation of BMI by IncomeGroup and Gender. Sort and print the summary table.
+**Verified:** I checked that rows with missing values in those three columns were excluded, confirmed the group counts, means, and standard deviations against the filtered data, and checked the table’s sort order.
+
+**AI prompt:** Arrange the summary table in the order High Income, Middle Income, and Low Income.
+**Verified:** I checked that the printed table shows the income groups in that order and that the summary values stayed the same.
+## pipeline 1
+
+```{r}
+pipeline1_summary <- nhanes |>
+	filter(!is.na(BMI), !is.na(IncomeGroup), !is.na(Gender)) |>
+	group_by(IncomeGroup, Gender) |>
+	summarise(
+		n = n(),
+		mean_BMI = mean(BMI),
+		sd_BMI = sd(BMI),
+		.groups = "drop"
+	) |>
+		arrange(
+			factor(IncomeGroup, levels = c(
+				"High Income (>3.5)",
+				"Middle Income",
+				"Low Income (<1.3)"
+			)),
+			Gender
+		)
+
+print(pipeline1_summary)
+```
+
+
+## R Function
+
+```{r}
+summarise_mean_sd <- function(data, value, group1, group2) {
+  data |>
+    filter(!is.na({{ value }}), !is.na({{ group1 }}), !is.na({{ group2 }})) |>
+    group_by({{ group1 }}, {{ group2 }}) |>
+    summarise(
+      n = n(),
+      mean_value = round(mean({{ value }}), 2),
+      sd_value = round(sd({{ value }}), 2),
+      .groups = "drop"
+    ) |>
+    arrange({{ group1 }}, {{ group2 }})
+}
+
+r_function_summary <- summarise_mean_sd(nhanes, BMI, IncomeGroup, Gender) |>
+	arrange(
+		factor(IncomeGroup, levels = c(
+			"High Income (>3.5)",
+			"Middle Income",
+			"Low Income (<1.3)"
+		)),
+		Gender
+	)
+r_function_summary
+```
+
+```{r}
+identical(pipeline1_summary$mean_BMI, r_function_summary$mean_value)
+```
+
+## Second Function Application
+
+```{r}
+weight_by_gender_race <- summarise_mean_sd(nhanes, Weight, Gender, Race)
+weight_by_gender_race
+```
