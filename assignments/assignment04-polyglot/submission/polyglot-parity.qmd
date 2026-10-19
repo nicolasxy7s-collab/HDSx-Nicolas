@@ -154,6 +154,10 @@ pipeline1_summary |>
 
 ```
 
+```{r}
+sum(is.na(nhanes$BMI))
+```
+
 ## Part D: Parity Audit
 
 I compared the R `pipeline1_summary` with the Python `pipeline1_summary` in
@@ -163,6 +167,7 @@ I compared the R `pipeline1_summary` with the Python `pipeline1_summary` in
 |---|---:|---:|:---:|
 | Raw row count | `nrow(nhanes)` = 105626 | `len(nhanes)` = 105626 | Yes |
 | Column names | `names(nhanes)` = 18 variables listed below | `nhanes.columns.tolist()` = same 18 variables | Yes |
+| Missing BMI values | `sum(is.na(nhanes$BMI))` = 9356 | `nhanes["BMI"].isna().sum()` = 9356 | Yes |
 | Rows after excluding missing BMI, IncomeGroup, or Gender | `nrow(filter(nhanes, !is.na(BMI), !is.na(IncomeGroup), !is.na(Gender)))` = 87647 | `len(nhanes.dropna(subset=["BMI", "IncomeGroup", "Gender"]))` = 87647 | Yes |
 | IncomeGroup/Gender group count | `nrow(pipeline1_summary)` = 6 | `len(pipeline1_summary)` = 6 | Yes |
 
@@ -183,3 +188,7 @@ The rounded summary values match for every group:
 
 The R and Python results agree on row counts, variables, grouping labels, group
 counts, mean BMI, and sample standard deviation after rounding to two decimals.
+
+
+
+To render this report, run quarto render assignments/assignment04-polyglot/submission/polyglot-parity.qmd --to html from the repository root. Open the resulting polyglot-parity.html in a browser to view it.

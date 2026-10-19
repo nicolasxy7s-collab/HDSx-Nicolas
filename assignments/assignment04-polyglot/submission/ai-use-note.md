@@ -28,5 +28,8 @@ Verified: I ran the notebook cell, confirmed it calls the helper once, and check
 ## What AI helped with
 AI helped set up the Quarto assignment and load the NHANES data in R and Python. It helped translate the R summary pipeline into pandas and create a reusable Python helper. It also helped organize the income-group order and document the parity checks.
 
+## What I changed
+I reviewed the translated workflow and kept the Python analysis in separate, step-by-step notebook cells. I added the missing-BMI check and completed the parity documentation with the group labels, counts, rounded means, and standard deviations.
+
 ## How I verified the result
 I checked the dataset dimensions and confirmed both languages read 105,626 rows and 18 columns. I verified that filtering missing BMI, IncomeGroup, or Gender left 87,647 rows and that both summaries contained six groups. I compared the group labels, counts, rounded BMI means, and rounded sample standard deviations, and confirmed they matched in the requested order.
