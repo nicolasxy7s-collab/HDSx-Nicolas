@@ -1,0 +1,2 @@
+# Figure Caption
+Mean BMI (kg/m²) by income group across the available NHANES cycles in the prepared NHANES Health Equity classroom CSV, among adults aged 20–80. Values are unweighted arithmetic means; records missing BMI, income group, or cycle were excluded, and only cycle–income cells with at least 30 records are shown. Lines connect observed cycle summaries; this descriptive classroom figure does not estimate population trends, obesity prevalence, or causal effects of income.

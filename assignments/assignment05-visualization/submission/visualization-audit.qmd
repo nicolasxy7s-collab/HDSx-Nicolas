@@ -1,0 +1,126 @@
+---
+title: "Assignment 5: Visualization Audit"
+format: html
+execute:
+  message: false
+---
+
+The flawed script selected only the first and last NHANES cycles, omitted its stated age restriction, and used a narrow y-axis. It also described mean BMI as obesity and made a causal claim. This revision includes every available cycle, restricts the data to adults aged 20–80, counts each income-by-cycle group, and places zero on the y-axis.
+
+The figure remains a descriptive classroom summary. Its means are unweighted, so the lines connect observed cycle summaries rather than estimating annual population trends or the effect of income on BMI.
+
+
+# AI prompt: 
+"Load the classroom CSV with repository-relative paths and check the variables needed for the BMI audit."
+
+# Verified: 
+Column names were checked against the supplied CSV; this R code ran locally.
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+candidate_paths <- c(
+  "examples/nhanes-equity/data/nhanes_equity_v6.csv",
+  "../../../examples/nhanes-equity/data/nhanes_equity_v6.csv"
+)
+
+existing_paths <- candidate_paths[file.exists(candidate_paths)]
+if (length(existing_paths) == 0) {
+  stop("Could not find examples/nhanes-equity/data/nhanes_equity_v6.csv")
+}
+
+data_path <- existing_paths[[1]]
+repo_prefix <- if (data_path == candidate_paths[[1]]) "." else "../../.."
+nhanes <- read_csv(data_path, show_col_types = FALSE)
+
+required_columns <- c("Cycle", "IncomeGroup", "BMI", "Age")
+stopifnot(all(required_columns %in% names(nhanes)))
+
+cycle_levels <- sort(unique(nhanes$Cycle[!is.na(nhanes$Cycle)]))
+```
+
+
+
+
+
+# AI prompt: 
+"Revise the flawed plot using all available NHANES cycles and adults aged 20–80. Exclude missing values, calculate each income-group-by-cycle cell count and unweighted mean BMI, retain cells with n >= 30, use a y-axis that includes zero, write descriptive labels and a caption covering the source, exclusions, and limitations, and export corrected-plot.png."
+
+# Verified: 
+The R code produced 33 cells, all with n >= 1,089. The zero-based plot and exported PNG were inspected.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 7
+#| fig-alt: "Line and point chart of unweighted mean BMI across available NHANES cycles for three income groups among adults aged 20 to 80. The y-axis starts at zero."
+
+bmi_by_income_cycle <- nhanes |>
+  filter(
+    !is.na(Cycle),
+    !is.na(IncomeGroup),
+    !is.na(BMI),
+    !is.na(Age),
+    Age >= 20,
+    Age <= 80
+  ) |>
+  group_by(Cycle, IncomeGroup) |>
+  summarise(
+    n = n(),
+    mean_bmi = mean(BMI, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  filter(n >= 30) |>
+  mutate(Cycle = factor(Cycle, levels = cycle_levels))
+
+stopifnot(nrow(bmi_by_income_cycle) > 0)
+
+caption_text <- paste(
+  "Mean BMI (kg/m²) by income group across the available NHANES cycles in the prepared NHANES Health Equity classroom CSV, among adults aged 20–80.",
+  "Values are unweighted arithmetic means; records missing BMI, income group, or cycle were excluded, and only cycle–income cells with at least 30 records are shown.",
+  "Lines connect observed cycle summaries; this descriptive classroom figure does not estimate population trends, obesity prevalence, or causal effects of income."
+)
+
+corrected_plot <- ggplot(
+  bmi_by_income_cycle,
+  aes(x = Cycle, y = mean_bmi, color = IncomeGroup, group = IncomeGroup)
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.5) +
+  scale_color_brewer(palette = "Dark2") +
+  expand_limits(y = 0) +
+  labs(
+    title = "Mean BMI by income group across available NHANES cycles",
+    subtitle = "Adults aged 20–80 in the prepared classroom dataset; unweighted",
+    x = "NHANES cycle",
+    y = "Mean BMI (kg/m²)",
+    color = "Income group",
+    caption = paste(strwrap(caption_text, width = 100), collapse = "\n")
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom",
+    plot.caption = element_text(hjust = 0, margin = margin(t = 8))
+  )
+
+plot_path <- file.path(
+  repo_prefix,
+  "assignments",
+  "assignment05-visualization",
+  "submission",
+  "corrected-plot.png"
+)
+
+ggsave(
+  filename = plot_path,
+  plot = corrected_plot,
+  width = 10,
+  height = 7,
+  dpi = 300,
+  bg = "white"
+)
+
+corrected_plot
+```
