@@ -4,16 +4,17 @@
 
 **Data-loading chunk**
 
+```text
 # AI prompt: "Load the classroom CSV with repository-relative paths and check the variables needed for the BMI audit."
 # Verified: Column names were checked against the supplied CSV; this R code ran locally.
-
+```
 
 **Summary, plot, and export chunk**
 
-
+```text
 # AI prompt: "Revise the flawed plot using all available NHANES cycles and adults aged 20–80. Exclude missing values, calculate each income-group-by-cycle cell count and unweighted mean BMI, retain cells with n >= 30, use a y-axis that includes zero, write descriptive labels and a caption covering the source, exclusions, and limitations, and export corrected-plot.png."
 # Verified: The R code produced 33 cells, all with n >= 1,089. The zero-based plot and exported PNG were inspected.
-
+```
 
 ## What AI helped with
 
