@@ -1,0 +1,2 @@
+# M1 Link Note
+For our M1 opioid death-rate figure, we will label the annual crude rate per 100,000 people and show suppressed or unavailable years as gaps rather than zeros. The caption will explain that comparisons across provinces and territories are descriptive, not age-adjusted, and may be affected by small populations, reporting differences, and incomplete recent investigations.
