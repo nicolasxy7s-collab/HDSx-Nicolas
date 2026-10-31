@@ -1,0 +1,135 @@
+---
+title: "Assignment 6: NHANES EDA and AI Audit"
+---
+
+## Data and cohort definition
+
+This analysis uses the prepared NHANES Health Equity classroom CSV derived
+from CDC/NCHS public-use NHANES files. The eligible cohort consists of
+records with recorded age **20 through 80, inclusive**. Missing age and
+ages outside this range are excluded. This restriction focuses the
+exercise on adult BMI. No restriction by survey cycle is applied.
+
+```{r}
+#| label: load-and-define-cohort
+# AI prompt: In R, load the NHANES CSV, keep adults aged 20–80, and print a knitr::kable() table showing the cohort counts at each step. Make the code work from either the repo root or three levels below it.
+# Verified: Checked the actual CSV columns and boundary filter; rendered locally in a fresh R process.
+
+library(readr)
+library(dplyr)
+library(knitr)
+
+csv_path <- "examples/nhanes-equity/data/nhanes_equity_v6.csv"
+root_options <- c(".", "../../..")
+repo_root <- root_options[file.exists(file.path(root_options, csv_path))][1]
+if (is.na(repo_root)) stop("Cannot find the cached NHANES CSV.")
+
+output_dir <- file.path(repo_root, "assignments/assignment06-eda-ai-audit/submission")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+nhanes <- read_csv(file.path(repo_root, csv_path), show_col_types = FALSE)
+key_vars <- c("BMI", "Age", "IncomeGroup", "Gender", "Race", "Cycle")
+stopifnot(all(key_vars %in% names(nhanes)))
+
+adult_df <- nhanes |> filter(Age >= 20, Age <= 80)
+stopifnot(nrow(adult_df) > 0, all(adult_df$Age >= 20 & adult_df$Age <= 80))
+
+cohort_flow <- data.frame(
+  Step = c("Prepared CSV", "Exclude missing age", "Restrict to ages 20-80"),
+  N = c(nrow(nhanes), sum(!is.na(nhanes$Age)), nrow(adult_df))
+)
+kable(cohort_flow, caption = "Cohort definition before missing-data exclusions.")
+```
+
+## Missingness and analysis decisions
+
+Missingness is assessed **before** excluding incomplete records. Percentages
+use the age-eligible cohort as their denominator. BMI, age, and income
+group are the Table 1 variables; gender, race, and cycle are additional
+cohort checks. Missingness counts may overlap across variables.
+
+```{r}
+#| label: missingness
+# AI prompt: Count missing values for six key variables before complete-case filtering.
+# Verified: Matched missing counts to separate base-R counts; percentages use the age-eligible N.
+
+missingness <- data.frame(
+  Variable = key_vars,
+  Cohort_N = nrow(adult_df),
+  Missing_N = vapply(adult_df[key_vars], function(x) sum(is.na(x)), numeric(1))
+)
+missingness$Missing_percent <- round(100 * missingness$Missing_N / nrow(adult_df), 1)
+kable(missingness, caption = "Missingness within the age-eligible cohort.")
+```
+
+Table 1 uses complete cases for **BMI, age, and income group only**.
+Age is already complete after the age restriction. Records missing BMI
+or income group are excluded; missing values in other columns do not
+trigger exclusion. No missing values are imputed. This choice gives each
+group's N, BMI, and age summaries the same denominator. Exclusion may
+bias the results if retained and excluded records differ systematically.
+
+```{r}
+#| label: complete-case-flow
+# AI prompt: Exclude missing Table 1 variables only and show the number removed.
+# Verified: Checked complete-case N against base-R complete.cases on BMI, Age, and IncomeGroup.
+table_df <- adult_df |> filter(!is.na(BMI), !is.na(Age), !is.na(IncomeGroup))
+stopifnot(nrow(table_df) > 0)
+kable(data.frame(
+  Step = c("Age-eligible records", "Excluded: missing BMI or income", "Table 1 complete cases"),
+  N = c(nrow(adult_df), nrow(adult_df) - nrow(table_df), nrow(table_df))
+), caption = "Missing-data exclusions, counted once per record.")
+```
+
+## Table 1
+
+N counts records retained in each income group. BMI (kg/m²) and age
+(years) are presented as mean (sample SD), rounded to one decimal place,
+following the classroom convention. SD describes variability among records.
+These summaries do not display the full distributions or their tails.
+
+```{r}
+#| label: table1-and-export
+# AI prompt: Summarize N and BMI/age mean (SD) by IncomeGroup and export the same table.
+# Verified: Compared N, means, and sample SDs with independent base-R summaries; checked CSV read-back.
+mean_sd <- function(x) sprintf("%.1f (%.1f)", mean(x), sd(x))
+table1 <- table_df |>
+  group_by(IncomeGroup) |>
+  summarise(
+    N = n(),
+    `BMI, mean (SD)` = mean_sd(BMI),
+    `Age, mean (SD)` = mean_sd(Age),
+    .groups = "drop"
+  )
+stopifnot(sum(table1$N) == nrow(table_df))
+write_csv(table1, file.path(output_dir, "table1.csv"))
+kable(table1, caption = "Table 1. Complete cases aged 20-80; unweighted descriptive statistics.")
+```
+
+## Interpretation
+
+The retained income groups have different observed mean BMI values in this
+prepared dataset. These comparisons do not establish statistical
+significance or show that income causes BMI differences. The exclusion
+counts describe data availability; they do not establish that missingness
+is random or that complete cases are representative.
+
+## Methods and limitations
+
+We analyzed the cached NHANES Health Equity classroom CSV using the
+age-20-80 cohort defined above. After reporting missingness, we restricted
+Table 1 to complete BMI, age, and income-group records and calculated
+N and mean (SD) by IncomeGroup. This analysis is **descriptive, unweighted,
+and non-causal**. Survey weights, strata, and primary sampling units were
+not incorporated, and no hypothesis tests were performed. The summaries
+describe retained classroom records; they are not national population
+estimates. Complete-case selection, pooling cycles, and differences in
+group composition limit interpretation. Population inference would require
+an appropriate survey-design analysis and handling of pooled cycles.
+
+## Provenance and stewardship
+
+The data are cached in the course workspace for reproducible learning;
+they were not retrieved afresh during this analysis. Only aggregate
+summaries are reported. Row-level health records should not be pasted
+into external AI tools, linked to identify participants, or used to make
+individual-level or unsupported small-group claims.
