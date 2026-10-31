@@ -26,4 +26,4 @@ Audited file: `assignments/assignment06-eda-ai-audit/planted-error-starter.qmd`.
 
 ## AI-use check
 
-ChatGPT (Codex) helped inspect the actual starter, draft corrections, and organize the audit. The listed problems were checked against the starter's code and prose. The corrected analysis was run on the repository CSV using relative paths, with separate base-R checks of counts and summary statistics.
+ChatGPT helped organize the audit and suggest corrections. Each issue was checked against the starter’s code and prose.
