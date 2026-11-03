@@ -1,0 +1,3 @@
+# Reproducibility Note
+
+On 2026-11-03, I successfully rendered `assignments/assignment07-dashboard/submission/dashboard.qmd` in a fresh GitHub Codespace using VS Code’s Quarto Render command with HTML selected, R 4.6.1, and Quarto 1.10.19. The dashboard read the cached repository CSV through the relative path `examples/nhanes-equity/data/nhanes_equity_v6.csv`, without private credentials. Both tested income-group settings rendered successfully, and `"Low Income (<1.3)"` was restored and rendered again for the final version.
