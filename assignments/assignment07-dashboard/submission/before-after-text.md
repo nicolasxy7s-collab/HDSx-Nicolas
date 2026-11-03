@@ -1,0 +1,5 @@
+# Before and After Text
+
+- **Original Interpretation:** For the selected income group, the table and figure describe the mean BMI pattern across available NHANES cycles in the prepared classroom dataset. The dashboard should help the audience ask better questions about pattern, timing, and context rather than treat the line as a causal explanation.
+- **Revised Interpretation:** Each point is the average BMI of included adults aged 20-80 in the selected income group for one NHANES cycle; the table shows how many records contributed. These unweighted classroom summaries describe the included records and do not show that income caused BMI to change or that the pattern applies to all US adults.
+- **Why it helps:** I made the meaning of the chart points and table counts explicit and clarified the causal and population limits. Student-facing starter instructions were removed from the displayed dashboard; the analysis code remained unchanged.

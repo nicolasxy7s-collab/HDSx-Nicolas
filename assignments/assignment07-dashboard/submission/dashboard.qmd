@@ -1,0 +1,111 @@
+---
+format:
+  html:
+    embed-resources: true
+---
+
+# BMI Patterns by Income Group
+
+## Audience Question
+
+Audience: a public-health analyst preparing a short classroom briefing on descriptive BMI patterns in the prepared NHANES Health Equity dataset.
+
+Question: among included adults aged 20-80, how does average BMI vary across NHANES cycles for the selected income group?
+
+## Setup
+
+<!--
+Source: assignments/assignment07-dashboard/dashboard-starter.qmd.
+All four R chunks are retained unchanged from the course-provided starter.
+-->
+
+```{r}
+#| label: dashboard-setup
+#| message: false
+#| warning: false
+library(tidyverse)  # AI-EDIT(2026-06-23): tidyverse-default — consolidated core library() calls into library(tidyverse)
+library(knitr)
+
+candidate_paths <- c(
+  "examples/nhanes-equity/data/nhanes_equity_v6.csv",
+  "../../examples/nhanes-equity/data/nhanes_equity_v6.csv"
+)
+
+data_path <- candidate_paths[file.exists(candidate_paths)][1]
+if (is.na(data_path)) {
+  stop("Could not find examples/nhanes-equity/data/nhanes_equity_v6.csv")
+}
+
+nhanes <- read_csv(data_path, show_col_types = FALSE)
+```
+
+## Control
+
+The selected income group determines which records appear in the table and chart. This static dashboard uses a source-code control: changing `selected_income` and rendering again updates the output.
+
+```{r}
+#| label: dashboard-control
+available_income_groups <- sort(unique(na.omit(nhanes$IncomeGroup)))
+selected_income <- "Low Income (<1.3)"
+
+if (!selected_income %in% available_income_groups) {
+  selected_income <- available_income_groups[1]
+}
+
+selected_income
+```
+
+Available groups are `"Low Income (<1.3)"`, `"Middle Income"`, and `"High Income (>3.5)"`.
+
+## Summary
+
+```{r}
+#| label: dashboard-summary
+dashboard_summary <- nhanes |>
+  filter(
+    Age >= 20,
+    Age <= 80,
+    IncomeGroup == selected_income,
+    !is.na(BMI),
+    !is.na(Cycle)
+  ) |>
+  group_by(Cycle) |>
+  summarise(
+    n = n(),
+    mean_bmi = round(mean(BMI), 1),
+    .groups = "drop"
+  )
+
+kable(dashboard_summary)
+```
+
+## Visualization
+
+```{r}
+#| label: dashboard-plot
+ggplot(dashboard_summary, aes(x = Cycle, y = mean_bmi, group = 1)) +
+  geom_line(linewidth = 0.8, color = "#2f6f73") +
+  geom_point(size = 2.4, color = "#2f6f73") +
+  labs(
+    title = paste("Mean BMI for", selected_income),
+    subtitle = "Adults age 20-80 in the prepared NHANES Health Equity classroom dataset",
+    x = "NHANES cycle",
+    y = "Mean BMI",
+    caption = "Descriptive, unweighted classroom summary. Missing BMI, income group, cycle, and out-of-cohort ages are excluded."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Interpretation
+
+<!--
+# AI prompt: Rewrite the Interpretation for a public-health analyst preparing a BMI briefing. Explain what each point and table count represent, retain the descriptive and unweighted limits, and avoid causal or national-population claims. Change only this paragraph, preserving every R chunk.
+# Verified: Compared the original and adapted R chunks; checked low- and middle-income renders, group counts, plot titles, and the visible limitation.
+-->
+
+Each point is the average BMI of included adults aged 20-80 in the selected income group for one NHANES cycle; the table shows how many records contributed. These unweighted classroom summaries describe the included records and do not show that income caused BMI to change or that the pattern applies to all US adults.
+
+## Limitation
+
+This starter is unweighted and descriptive. It does not account for NHANES survey design, does not estimate national prevalence, and should not be used to make causal claims about income and BMI.

@@ -1,0 +1,3 @@
+# Privacy Check
+
+The prepared NHANES Health Equity dataset was used for descriptive classroom analysis, without causal or national-population inference. I checked that the dashboard and preview showed aggregate counts and means only, with no participant records, credentials, private links, or small-cell overclaims; the smallest cycle count in the two tested settings was 1,089. Row-level health records were not pasted into external AI tools.
