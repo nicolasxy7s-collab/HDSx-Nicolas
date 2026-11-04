@@ -10,17 +10,21 @@ Among included adults aged 20-80, how does average BMI vary across NHANES cycles
 
 ## Control And Visualization
 
-- **Control:** `selected_income`, with values `"Low Income (<1.3)"`, `"Middle Income"`, and `"High Income (>3.5)"`.
-- **Visualization:** a line chart of mean BMI by NHANES cycle, accompanied by a table of cycle-specific counts and means.
-- **Interaction:** changing the source value and rendering again updates the selected-group output, table, plot title, and plotted means. The rendered HTML is static.
+- Control or interaction: `selected_income`, with values `"Low Income (<1.3)"`, `"Middle Income"`, and `"High Income (>3.5)"`. The selected value is changed in the source before rendering; the HTML is static.
+- Visualization affected: a line chart of mean BMI by NHANES cycle, accompanied by a table of cycle-specific counts and means.
+- What changes when the control changes: rendering again updates the selected-group output, table values, chart title, and plotted means.
 
 ## Before And After
 
-I revised the Interpretation to explain the chart points and table counts, the gap between available cycles, and the approximately two-year collection period behind the 2021-2023 label. It also explains equal spacing of cycle labels, automatic changes in the vertical scale, different samples across cycles, and the absence of uncertainty intervals or statistical tests. These cautions help readers interpret the summaries without assuming annual measurements, changes in the same individuals, or statistically established differences. The original and revised wording are recorded in `before-after-text.md`; student-facing starter instructions were removed, and all four R chunks remained unchanged.
+| Original text | Revised text | Why the revision helps |
+|---|---|---|
+| For the selected income group, the table and figure describe the mean BMI pattern across available NHANES cycles in the prepared classroom dataset. The dashboard should help the audience ask better questions about pattern, timing, and context rather than treat the line as a causal explanation. | Each point is the average BMI of included adults aged 20-80 in the selected income group for one NHANES cycle; the table shows how many records contributed. These unweighted classroom summaries describe the included records and do not show that income caused BMI to change or that the pattern applies to all US adults.<br><br>The prepared dataset moves directly from the 2017-2018 cycle to the 2021-2023 cycle, with no intervening cycle included. Although the 2021-2023 label spans three calendar years, it represents approximately two years of collection, from August 2021 to August 2023 ([CDC documentation](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/overviewbrief.aspx?Cycle=2021-2023)). Cycle labels are equally spaced rather than positioned by elapsed time; the connecting line does not show intervening annual measurements or an annual rate of change. Each cycle summarizes a different sample of adults, rather than changes in the same individuals. The vertical scale adjusts to the selected group, so compare table values rather than apparent heights or slopes across group settings. No uncertainty intervals or statistical tests are shown. | The revision explains the displayed summaries, distinguishes the cycle gap from the approximately two-year collection period, and clarifies the limits of visual comparisons. |
+
+All four R chunks remained unchanged. Student-facing starter instructions were removed from the displayed dashboard.
 
 ## Test Result
 
-On 2026-11-03, low- and middle-income settings both rendered without errors and displayed 11 cycles, with 15,293 and 19,228 included records respectively. Counts and means matched separate base-R checks, and the table, plot title, and plotted values updated correctly. Low income was restored and rendered again. The Interpretation revision retained the same R code and numerical results.
+On 2026-11-03, I rendered the dashboard in a fresh GitHub Codespace using VS Code’s Quarto Render command with HTML selected, R 4.6.1, and Quarto 1.10.19. Low- and middle-income outputs each contained 11 cycles, with 15,293 and 19,228 included records respectively; counts and means matched separate base-R checks, and the table, chart title, and plotted values updated correctly. Low income was restored, and the final revised dashboard rendered successfully with the same numerical results.
 
 ## Limitation
 
