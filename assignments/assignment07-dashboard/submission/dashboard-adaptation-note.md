@@ -16,11 +16,11 @@ Among included adults aged 20-80, how does average BMI vary across NHANES cycles
 
 ## Before And After
 
-I revised the Interpretation paragraph to explain what each chart point and table count represents and to clarify the causal and population limits. This helps the audience understand the displayed summaries without treating them as evidence of causation or national estimates. The original and revised wording are recorded in `before-after-text.md`; student-facing starter instructions were removed, and all four R chunks remained unchanged.
+I revised the Interpretation to explain the chart points and table counts, the gap between available cycles, and the approximately two-year collection period behind the 2021-2023 label. It also explains equal spacing of cycle labels, automatic changes in the vertical scale, different samples across cycles, and the absence of uncertainty intervals or statistical tests. These cautions help readers interpret the summaries without assuming annual measurements, changes in the same individuals, or statistically established differences. The original and revised wording are recorded in `before-after-text.md`; student-facing starter instructions were removed, and all four R chunks remained unchanged.
 
 ## Test Result
 
-On 2026-11-03, low- and middle-income settings both rendered without errors and displayed 11 cycles, with 15,293 and 19,228 included records respectively. Counts and means matched separate base-R checks, and the table, plot title, and plotted values updated correctly. Low income was restored and rendered again for the final preview.
+On 2026-11-03, low- and middle-income settings both rendered without errors and displayed 11 cycles, with 15,293 and 19,228 included records respectively. Counts and means matched separate base-R checks, and the table, plot title, and plotted values updated correctly. Low income was restored and rendered again. The Interpretation revision retained the same R code and numerical results.
 
 ## Limitation
 
