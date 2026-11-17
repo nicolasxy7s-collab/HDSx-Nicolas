@@ -16,7 +16,7 @@ bibliography: ../../../references.bib
 
 **Why it matters:** This comparison can help analysts identify a pattern for further investigation while understanding the limits of the evidence.
 
-## Evidence
+## Evidence {.smaller}
 
 | Income group | Included records | Average BMI (kg/m²) |
 |---|---:|---:|
@@ -24,11 +24,14 @@ bibliography: ../../../references.bib
 | Middle income | 19,228 | 29.3 |
 | Low income | 15,293 | 29.4 |
 
-The rounded averages differed by less than one BMI unit among 50,851 included records.
+**Takeaway:** Across 50,851 included records, the rounded
+group averages differed by less than one BMI unit.
 
-Average BMI is not the percentage of people with obesity.
+**Caution:** Descriptive and unweighted. Average BMI does
+not measure the percentage of people with obesity.
 
-Source: My A6 `table1.csv`, using the prepared CDC/NCHS NHANES classroom snapshot [@cdc-nhanes]. Descriptive and unweighted.
+**Source:** A6 `table1.csv`; prepared NHANES classroom
+snapshot [@cdc-nhanes].
 
 ## Limitation And Next Step
 
