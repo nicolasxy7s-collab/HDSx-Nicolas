@@ -34,6 +34,6 @@ Source: My A6 `table1.csv`, using the prepared CDC/NCHS NHANES classroom snapsho
 
 **Limitation:** This comparison cannot show that income causes BMI differences. It does not account for how NHANES sampled participants, and excluding missing information may affect the results.
 
-**Next step:** Check whether the pattern remains after accounting for sampling, examining excluded records, and considering differences such as age between income groups.
+**Next step:** Before using this pattern to guide a decision, check whether it remains after accounting for how NHANES selected participants, examining which records were left out because BMI or income was missing, and considering age differences between income groups.
 
 **AI-use note:** AI was not used for this part
