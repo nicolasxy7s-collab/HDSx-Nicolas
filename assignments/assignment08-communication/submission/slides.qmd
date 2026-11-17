@@ -1,0 +1,39 @@
+---
+title: "BMI by Income Group"
+author: "Nicolas Liu"
+format:
+  revealjs:
+    slide-number: true
+    embed-resources: true
+bibliography: ../../../references.bib
+---
+
+## Question And Audience
+
+**Audience:** Public-health analysts preparing an introductory briefing on BMI and income.
+
+**Question:** How does average BMI differ across income groups among adults aged 20–80 in the prepared NHANES classroom dataset?
+
+**Why it matters:** This comparison can help analysts identify a pattern for further investigation while understanding the limits of the evidence.
+
+## Evidence
+
+| Income group | Included records | Average BMI (kg/m²) |
+|---|---:|---:|
+| High income | 16,330 | 28.6 |
+| Middle income | 19,228 | 29.3 |
+| Low income | 15,293 | 29.4 |
+
+The rounded averages differed by less than one BMI unit among 50,851 included records.
+
+Average BMI is not the percentage of people with obesity.
+
+Source: My A6 `table1.csv`, using the prepared CDC/NCHS NHANES classroom snapshot [@cdc-nhanes]. Descriptive and unweighted; not US population estimates.
+
+## Limitation And Next Step
+
+**Limitation:** This comparison cannot show that income causes BMI differences. It does not account for how NHANES sampled participants, and excluding missing information may affect the results.
+
+**Next step:** Check whether the pattern remains after accounting for sampling, examining excluded records, and considering differences such as age between income groups.
+
+**AI-use note:** AI was not used for this part
