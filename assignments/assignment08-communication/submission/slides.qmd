@@ -28,7 +28,7 @@ The rounded averages differed by less than one BMI unit among 50,851 included re
 
 Average BMI is not the percentage of people with obesity.
 
-Source: My A6 `table1.csv`, using the prepared CDC/NCHS NHANES classroom snapshot [@cdc-nhanes]. Descriptive and unweighted; not US population estimates.
+Source: My A6 `table1.csv`, using the prepared CDC/NCHS NHANES classroom snapshot [@cdc-nhanes]. Descriptive and unweighted.
 
 ## Limitation And Next Step
 
